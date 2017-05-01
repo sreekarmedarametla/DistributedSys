@@ -1,0 +1,80 @@
+syntax="proto2";
+option optimize_for = SPEED;
+option java_package = "pipe.work";
+
+import "resources/common.proto";
+import "resources/election.proto";
+
+message WorkState {
+   required int32 enqueued = 1;
+   required int32 processed = 2;
+}
+
+message AskQueueSize{
+	optional bool askqueuesize=1;
+}
+message ReplyQueueSize{
+	required int32 nodeid=1;
+	required int32 queuesize=2;
+}
+message Heartbeat {
+   required WorkState state = 1;
+}
+message LeaderRoute {
+    // a node should not have a value though this is not enforced    
+    required string host = 2;
+    optional int32 port = 3;
+}
+message WhoIsLeader{
+	required bool askleader=1;
+}
+/**
+ * description of the work
+ */
+message Task {  
+    required int64 series_id = 1;
+    required int32 seq_id = 2;
+}
+
+message Commit{
+	required string filename=1;	
+	required int32 numOfChunks=2;
+}
+
+// These are messages to keep the network running (not to perform work)
+message WorkMessage {
+   optional Header header = 1;
+   required int64 secret = 2;
+   
+   /**
+    * The actions (request or response) is
+    * implicit through which data structure is in the payload.
+    */ 
+
+   oneof payload {
+      Failure err = 3;
+      
+      // a sanity check for testing
+      bool ping = 4;
+
+      // status updates between adjacent workers
+      Heartbeat beat = 5;
+	  
+	  Commit commit=6;     
+      WorkState state = 7;      
+      LeaderStatus leader = 9;      
+      Vote vote=10; 
+      RequestVote reqvote=11;
+      AddNewNode addnewnode=12;
+      Request request = 13;      
+      Response response = 14;
+      WhoIsLeader whoIsLeader=15;
+      LeaderRoute leaderRoute=16;
+      Log log=8;
+      AskQueueSize askqueuesize=17;
+      ReplyQueueSize replyqueuesize=18;
+      
+   }
+}
+
+
