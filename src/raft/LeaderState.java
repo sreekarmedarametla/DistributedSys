@@ -487,6 +487,7 @@ public class LeaderState implements RaftState {
 	public synchronized void sendChunkToClient(WorkMessage msg) {
 		
 		System.out.println("received sendChunnk to client method");
+		
 		// TODO Auto-generated method stub
 		Header.Builder hb = Header.newBuilder();
 		hb.setNodeId(Manager.getNodeId());
@@ -500,6 +501,7 @@ public class LeaderState implements RaftState {
 
 		ReadResponse.Builder rrb = ReadResponse.newBuilder();
 		rrb.setFilename(msg.getResponse().getReadResponse().getFilename());
+		rrb.setFileExt("abc");
 		rrb.setChunk(chb);
 		rrb.setNumOfChunks(msg.getResponse().getReadResponse().getNumOfChunks());
 

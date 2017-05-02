@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import com.google.protobuf.ByteString;
@@ -29,6 +30,8 @@ public class StateWorker extends Thread {
 
 	public boolean processRequest = true;
 
+	
+	
 	public boolean startTracking = false;
 
 	public long startTime;
@@ -68,6 +71,10 @@ public class StateWorker extends Thread {
 						// to" + ei.getRef());
 
 						newReq = false;
+						
+						
+						
+						
 						System.out.println("Now NewReq: " + newReq);
 					} else
 						continue;
@@ -120,6 +127,7 @@ public class StateWorker extends Thread {
 							}
 						}
 						newReq = true;
+						leader.workStealingNodes=new ArrayList<Integer>();
 						flag = true;
 						chunks = 0;
 
@@ -130,6 +138,7 @@ public class StateWorker extends Thread {
 
 							fetchChunkFromLeader(wm);
 							newReq = true;
+							leader.workStealingNodes=new ArrayList<Integer>();
 							flag = true;
 							chunks = 0;
 						}
