@@ -176,7 +176,7 @@ public class DemoApp implements CommListener {
 	    String ip=out.split(":")[0];
 	    int po=Integer.parseInt(out.split(":")[1]);
 		String host = "localhost";
-		int port = 4168;
+		int port = 4268;
 		System.out.println(ip+" "+po);
 		try {
 			MessageClient mc = new MessageClient(host, port);			

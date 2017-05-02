@@ -133,7 +133,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 				System.out.println("Queue Size Response sent to " + ei.getRef());
 			} else if (msg.getResponse().hasReadResponse()&&state.getManager().getCurrentState().getClass() == LeaderState.class) {
 				System.out.println("received read response chunk from follower");
-				state.getManager().getCurrentState().sendChunkToClient(msg);
+				state.getManager().getStateWorker().sendChunkToClient(msg);
 			} else if (msg.hasReplyqueuesize()
 					&& state.getManager().getCurrentState().getClass() == LeaderState.class) {
 				System.out.println("Received response from followers Queue Size");
@@ -176,9 +176,6 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 				System.out.println("chunk " + msg.getRequest().getRrb().getFilename());
 				System.out.println("chunk " + msg.getRequest().getRrb().getChunkId());
 				state.getManager().getStateWorker().fetchChunk(msg);
-			} else if (msg.getResponse().hasReadResponse()) {
-				System.out.println("received read response chunk from follower");
-				state.getManager().getCurrentState().sendChunkToClient(msg);
 			} else if (msg.hasLog() && msg.getLog().getNewNodeId() == state.getManager().getNodeId()) {
 				System.out.println("Chunk Replication message from Leader to New Node");
 				state.getManager().getCurrentState().logReplicationMessage(msg);

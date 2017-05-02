@@ -105,7 +105,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 					CommandMessage.Builder cb = CommandMessage.newBuilder();
 					cb.setHeader(hb);
 					cb.setPing(true);
-					Jedis jedis = new Jedis("192.168.1.20");
+					//Jedis jedis = new Jedis("192.168.1.20");
+					Jedis jedis = new Jedis("localhost");
 					System.out.println("Connection to server sucessfully");
 					// check whether server is running or not
 					System.out.println("Server is running: " + jedis.ping());
@@ -116,7 +117,8 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 					Channel clusterChannel = state.getManager().getEdgeMonitor().connectToChannel(ip, po);
 					clusterChannel.writeAndFlush(cb.build());
 				} else {
-					Jedis jedis = new Jedis("192.168.1.20");
+					//Jedis jedis = new Jedis("192.168.1.20");
+					Jedis jedis = new Jedis("localhost");
 					System.out.println("Connection to server sucessfully");
 					// check whether server is running or not
 					System.out.println("Server is running: " + jedis.ping());
